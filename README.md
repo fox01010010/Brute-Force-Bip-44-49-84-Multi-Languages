@@ -32,7 +32,7 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/tar
 brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 ```
 
-##👉 Address Types 1, 3, bc1q and Language are Detected Automatically.
+## 👉 Address Types 1, 3, bc1q and Language are Detected Automatically.
 
 ### 🧠 Arguments
 
@@ -54,7 +54,7 @@ brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 
 ### Examples
 
-📦##Windows:
+## 📦 Windows:
 ```powershell
 .\target\release\brute_force_mnemonics.exe
 ```
@@ -87,9 +87,7 @@ brute_force_mnemonics.exe bc1qeyyrletmtv7k8lszthsqeqyd55nhf5a9tty3ry coil analys
 brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogumelo pacato sonegar reduzida incolor roedor dentista decretar turbo circuito --derivation 1 --max-permutations 500000000
 ```
 
-
-
-🐧##Linux / macOS:
+## 🐧Linux / macOS:
 ```bash
 ./target/release/brute_force_mnemonics
 ```
