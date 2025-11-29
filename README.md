@@ -1,4 +1,4 @@
-# 🧠 Brute-Force-Rust Bip-44-49-84-Multi-Languages
+# 🧠 Brute-Force-Bip-44-49-84-Multi-Languages
 
 ## Use Case
 
