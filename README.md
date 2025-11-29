@@ -60,31 +60,31 @@ brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 ```
 **12 words bip44:**
 ```
-./brute_force_mnemonics.exe 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 500000000
 ```
 **24 words bip44:**
 ```
-./brute_force_mnemonics.exe 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 500000000
 ```
 **12 words bip49:**
 ```
-./brute_force_mnemonics.exe 3NHae8WHBCXsPChBngS8MwGP4fz6cVbVng strategy load plug list dinosaur coast mean pledge close reduce they few --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe 3NHae8WHBCXsPChBngS8MwGP4fz6cVbVng strategy load plug list dinosaur coast mean pledge close reduce they few --derivation 0 --max-permutations 500000000
 ```
 **24 words bip49:**
 ```
-./brute_force_mnemonics.exe 3FoukJdvyLPmKnAW5NBzYYqCrSpuZ4wJuc boost bright purse crime quick decline talk network desert session say program click food tackle daughter milk all suggest notable culture defy that coconut --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe 3FoukJdvyLPmKnAW5NBzYYqCrSpuZ4wJuc boost bright purse crime quick decline talk network desert session say program click food tackle daughter milk all suggest notable culture defy that coconut --derivation 0 --max-permutations 500000000
 ```
 **12 words bip84:**
 ```
-./brute_force_mnemonics.exe bc1q83eyddcayz40c73vkn5asl86duw54kz99d3sz4 waste float want romance soccer torch metal mule era purse yellow random --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe bc1q83eyddcayz40c73vkn5asl86duw54kz99d3sz4 waste float want romance soccer torch metal mule era purse yellow random --derivation 0 --max-permutations 500000000
 ```
 **24 words bip84:**
 ```
-./brute_force_mnemonics.exe bc1qeyyrletmtv7k8lszthsqeqyd55nhf5a9tty3ry coil analyst shallow patrol crime sad fatal review risk present judge mix farm trust decline strike make will pave tongue slam since page goddess --derivation 0 --max-permutations 500000000
+brute_force_mnemonics.exe bc1qeyyrletmtv7k8lszthsqeqyd55nhf5a9tty3ry coil analyst shallow patrol crime sad fatal review risk present judge mix farm trust decline strike make will pave tongue slam since page goddess --derivation 0 --max-permutations 500000000
 ```
 **12 words bip49 Language: portuguese:**
 ```
-./brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogumelo pacato sonegar reduzida incolor roedor dentista decretar turbo circuito --derivation 1 --max-permutations 500000000
+brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogumelo pacato sonegar reduzida incolor roedor dentista decretar turbo circuito --derivation 1 --max-permutations 500000000
 ```
 
 
