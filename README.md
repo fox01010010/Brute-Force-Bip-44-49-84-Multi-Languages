@@ -32,6 +32,8 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/tar
 brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 ```
 
+## Address Types 1, 3, bc1q and Language are Detected Automatically.
+
 ### 🧠 Arguments
 
 | Argument | Description |
