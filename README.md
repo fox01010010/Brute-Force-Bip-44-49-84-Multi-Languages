@@ -10,7 +10,7 @@ If you have 12/24 BIP-39 mnemonic words but don't remember the correct order, th
 
 ## Building
 
-### Windows
+### 📦 Windows
 
 ```powershell
 cargo build --release
@@ -18,7 +18,7 @@ cargo build --release
 
 The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages\target\release\brute_force_mnemonics.exe`.
 
-### Linux / macOS
+### 🐧 Linux / macOS
 
 ```bash
 cargo build --release
