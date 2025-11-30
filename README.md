@@ -96,6 +96,9 @@ brute_force_mnemonics.exe bc1qeyyrletmtv7k8lszthsqeqyd55nhf5a9tty3ry coil analys
 brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogumelo pacato sonegar reduzida incolor roedor dentista decretar turbo circuito --derivation 1 --max-permutations 500000000
 ```
 
+```bash
+
+```
 
 🐧**Linux / macOS:**
 ```bash
