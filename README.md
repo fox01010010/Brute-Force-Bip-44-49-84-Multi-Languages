@@ -22,9 +22,14 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages\tar
 **Clone the repository and enter the folder:**
 ```bash
 git clone https://github.com/fox01010010/fox_crypto.git && cd Brute-Force-Rust Bip-44-49-84-Multi-Languages
-``` 
+```
+ 
 ```bash
 cargo build --release
+```
+
+```bash
+cd target/release
 ```
 
 The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/target/release/brute_force_mnemonics`.
