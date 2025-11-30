@@ -1,4 +1,4 @@
-# 🧠 Brute-Force-Bip-44-49-84-Multi-Languages
+# 🧠 Brute-Force-Rust Bip-44-49-84-Multi-Languages
 
 ## Use Case
 
@@ -10,7 +10,7 @@ If you have 12/24 BIP-39 mnemonic words but don't remember the correct order, th
 
 ## Building
 
-### 📦 Windows
+### Windows
 
 ```powershell
 cargo build --release
@@ -18,7 +18,7 @@ cargo build --release
 
 The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages\target\release\brute_force_mnemonics.exe`.
 
-### 🐧 Linux / macOS
+### Linux / macOS
 
 ```bash
 cargo build --release
@@ -32,7 +32,7 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/tar
 brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 ```
 
-## 👉 Address Types 1, 3, bc1q and Language are Detected Automatically.
+## Address Types 1, 3, bc1q and Language are Detected Automatically.
 
 ### 🧠 Arguments
 
@@ -54,7 +54,7 @@ brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 
 ### Examples
 
-## 📦 Windows:
+📦**Windows:**
 ```powershell
 .\target\release\brute_force_mnemonics.exe
 ```
@@ -87,7 +87,8 @@ brute_force_mnemonics.exe bc1qeyyrletmtv7k8lszthsqeqyd55nhf5a9tty3ry coil analys
 brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogumelo pacato sonegar reduzida incolor roedor dentista decretar turbo circuito --derivation 1 --max-permutations 500000000
 ```
 
-## 🐧Linux / macOS:
+
+🐧**Linux / macOS:**
 ```bash
 ./target/release/brute_force_mnemonics
 ```
@@ -134,6 +135,38 @@ brute_force_mnemonics.exe 3CiLCrfNJ7ekbNQ9149beLu7HJuhTgMypk cabide seringa cogu
 - The default limit of 1,000,000 permutations covers ~0.2% of all possibilities
 - Progress is logged every 1,000 permutations
 - Invalid BIP-39 checksums are skipped automatically
+
+## Test Result
+
+./brute_force_mnemonics 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle team stove before deal shrimp dash mean toy pepper laugh poverty --derivation 0 --max-permutations 500000000
+Auto-detected BIP44 (Legacy) address
+Configuration:
+  Address type: BIP44 (Legacy P2PKH)
+  Derivation index: 0
+  Word count: 12
+  Language: english (auto-detected)
+  Max permutations: 500.0M
+
+Using derivation path: m/44'/0'/0'/0/0
+Using 24 CPU threads for parallel processing
+
+Checked 1.0M permutations...
+Checked 2.0M permutations...
+Checked 3.0M permutations...
+Checked 4.0M permutations...
+Checked 5.0M permutations...
+Checked 6.0M permutations...
+
+✓ FOUND MATCHING MNEMONIC!
+
+Mnemonic phrase:
+  puzzle stove pepper laugh before mean toy poverty team deal shrimp dash
+
+Details:
+  Permutation index: 6463230
+  Address type: BIP44 (Legacy P2PKH)
+  Derivation path: m/44'/0'/0'/0/0
+  Derived address: 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk
 
 ## License
 

@@ -284,11 +284,15 @@ fn search_permutations(
     let found = Arc::new(AtomicBool::new(false));
     let counter = Arc::new(AtomicUsize::new(0));
     
-    // Generate permutations lazily and process in parallel batches
-    let batch_size = 1000;
+    // Larger batch size for better CPU utilization
+    let batch_size = num_cpus * 500; // Scale with CPU count
     let mut batch = Vec::with_capacity(batch_size);
     
     for perm in words.iter().cloned().permutations(words.len()).take(max_permutations) {
+        if found.load(Ordering::Relaxed) {
+            break;
+        }
+        
         batch.push(perm);
         
         if batch.len() >= batch_size {
@@ -306,16 +310,11 @@ fn search_permutations(
             )? {
                 return Ok(true);
             }
-            
-            // Check if found by another batch
-            if found.load(Ordering::Relaxed) {
-                return Ok(true);
-            }
         }
     }
     
     // Process remaining batch
-    if !batch.is_empty() {
+    if !batch.is_empty() && !found.load(Ordering::Relaxed) {
         if process_batch(
             batch,
             target,
@@ -343,14 +342,15 @@ fn process_batch(
     found: &Arc<AtomicBool>,
     counter: &Arc<AtomicUsize>,
 ) -> Result<bool> {
-    batch.par_iter().try_for_each(|perm| -> Result<()> {
-        // Stop if already found
+    // Process each permutation in parallel
+    let result = batch.par_iter().find_map_any(|perm| {
+        // Early exit if found
         if found.load(Ordering::Relaxed) {
-            return Ok(());
+            return None;
         }
 
         let current = counter.fetch_add(1, Ordering::Relaxed);
-        if current % 100000 == 0 && current > 0 {
+        if current % 1000000 == 0 && current > 0 {
             println!("Checked {} permutations...", format_number(current));
         }
 
@@ -358,16 +358,23 @@ fn process_batch(
 
         let mnemonic = match Mnemonic::parse_in_normalized(language, &phrase) {
             Ok(m) => m,
-            Err(_) => return Ok(()),
+            Err(_) => return None,
         };
 
         let seed = mnemonic.to_seed("");
+        
+        // Create Secp256k1 context per thread (thread-local)
         let secp = bitcoin::secp256k1::Secp256k1::new();
 
-        let master_xprv = Xpriv::new_master(Network::Bitcoin, &seed)
-            .context("Failed to create master xprv")?;
+        let master_xprv = match Xpriv::new_master(Network::Bitcoin, &seed) {
+            Ok(x) => x,
+            Err(_) => return None,
+        };
 
-        let child_xprv = master_xprv.derive_priv(&secp, derivation_path)?;
+        let child_xprv = match master_xprv.derive_priv(&secp, derivation_path) {
+            Ok(x) => x,
+            Err(_) => return None,
+        };
 
         let child_priv = child_xprv.private_key;
         let child_pub_key = child_priv.public_key(&secp);
@@ -378,35 +385,45 @@ fn process_batch(
                 Address::p2pkh(&child_pub, Network::Bitcoin)
             }
             AddressType::Bip49 => {
-                let compressed = bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize())
-                    .context("Failed to create compressed public key")?;
+                let compressed = match bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize()) {
+                    Ok(c) => c,
+                    Err(_) => return None,
+                };
                 Address::p2shwpkh(&compressed, Network::Bitcoin)
             }
             AddressType::Bip84 => {
-                let compressed = bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize())
-                    .context("Failed to create compressed public key")?;
+                let compressed = match bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize()) {
+                    Ok(c) => c,
+                    Err(_) => return None,
+                };
                 Address::p2wpkh(&compressed, Network::Bitcoin)
             }
         };
 
         if &addr == target {
-            found.store(true, Ordering::Relaxed);
-            
-            println!("\n✓ FOUND MATCHING MNEMONIC!");
-            println!();
-            println!("Mnemonic phrase:");
-            println!("  {}", phrase);
-            println!();
-            println!("Details:");
-            println!("  Permutation index: {}", current);
-            println!("  Address type: {}", address_type.name());
-            println!("  Derivation path: {}", derivation_path_str);
-            println!("  Derived address: {}", addr);
-            println!();
+            Some((phrase, current))
+        } else {
+            None
         }
+    });
 
-        Ok(())
-    })?;
+    if let Some((phrase, index)) = result {
+        found.store(true, Ordering::Relaxed);
+        
+        println!("\n✓ FOUND MATCHING MNEMONIC!");
+        println!();
+        println!("Mnemonic phrase:");
+        println!("  {}", phrase);
+        println!();
+        println!("Details:");
+        println!("  Permutation index: {}", index);
+        println!("  Address type: {}", address_type.name());
+        println!("  Derivation path: {}", derivation_path_str);
+        println!("  Derived address: {}", target);
+        println!();
+        
+        return Ok(true);
+    }
 
-    Ok(found.load(Ordering::Relaxed))
+    Ok(false)
 }
