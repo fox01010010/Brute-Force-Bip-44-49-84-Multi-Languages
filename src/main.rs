@@ -5,7 +5,10 @@ use bitcoin::bip32::{DerivationPath, Xpriv};
 use bitcoin::{Network, PublicKey};
 use clap::Parser;
 use itertools::Itertools;
+use rayon::prelude::*;
 use std::str::FromStr;
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::Arc;
 use std::time::Instant;
 
 #[derive(Parser, Debug)]
@@ -272,52 +275,114 @@ fn search_permutations(
     let derivation_path: DerivationPath = DerivationPath::from_str(&derivation_path_str)
         .context("Failed to parse derivation path")?;
 
-    println!("Using derivation path: {}\n", derivation_path_str);
+    println!("Using derivation path: {}", derivation_path_str);
+    
+    // Detect number of CPUs
+    let num_cpus = rayon::current_num_threads();
+    println!("Using {} CPU threads for parallel processing\n", num_cpus);
 
-    let secp = bitcoin::secp256k1::Secp256k1::new();
+    let found = Arc::new(AtomicBool::new(false));
+    let counter = Arc::new(AtomicUsize::new(0));
+    
+    // Generate permutations lazily and process in parallel batches
+    let batch_size = 1000;
+    let mut batch = Vec::with_capacity(batch_size);
+    
+    for perm in words.iter().cloned().permutations(words.len()).take(max_permutations) {
+        batch.push(perm);
+        
+        if batch.len() >= batch_size {
+            let current_batch = std::mem::replace(&mut batch, Vec::with_capacity(batch_size));
+            
+            if process_batch(
+                current_batch,
+                target,
+                &derivation_path,
+                language,
+                address_type,
+                &derivation_path_str,
+                &found,
+                &counter,
+            )? {
+                return Ok(true);
+            }
+            
+            // Check if found by another batch
+            if found.load(Ordering::Relaxed) {
+                return Ok(true);
+            }
+        }
+    }
+    
+    // Process remaining batch
+    if !batch.is_empty() {
+        if process_batch(
+            batch,
+            target,
+            &derivation_path,
+            language,
+            address_type,
+            &derivation_path_str,
+            &found,
+            &counter,
+        )? {
+            return Ok(true);
+        }
+    }
 
-    for (i, perm) in words
-        .iter()
-        .cloned()
-        .permutations(words.len())
-        .take(max_permutations)
-        .enumerate()
-    {
-        if i % 100000 == 0 && i > 0 {
-            println!("Checked {} permutations...", format_number(i));
+    Ok(found.load(Ordering::Relaxed))
+}
+
+fn process_batch(
+    batch: Vec<Vec<String>>,
+    target: &Address<NetworkChecked>,
+    derivation_path: &DerivationPath,
+    language: Language,
+    address_type: AddressType,
+    derivation_path_str: &str,
+    found: &Arc<AtomicBool>,
+    counter: &Arc<AtomicUsize>,
+) -> Result<bool> {
+    batch.par_iter().try_for_each(|perm| -> Result<()> {
+        // Stop if already found
+        if found.load(Ordering::Relaxed) {
+            return Ok(());
+        }
+
+        let current = counter.fetch_add(1, Ordering::Relaxed);
+        if current % 100000 == 0 && current > 0 {
+            println!("Checked {} permutations...", format_number(current));
         }
 
         let phrase = perm.join(" ");
 
         let mnemonic = match Mnemonic::parse_in_normalized(language, &phrase) {
             Ok(m) => m,
-            Err(_) => continue, // skip invalid mnemonics
+            Err(_) => return Ok(()),
         };
 
         let seed = mnemonic.to_seed("");
+        let secp = bitcoin::secp256k1::Secp256k1::new();
 
         let master_xprv = Xpriv::new_master(Network::Bitcoin, &seed)
             .context("Failed to create master xprv")?;
 
-        let child_xprv = master_xprv.derive_priv(&secp, &derivation_path)?;
+        let child_xprv = master_xprv.derive_priv(&secp, derivation_path)?;
 
         let child_priv = child_xprv.private_key;
         let child_pub_key = child_priv.public_key(&secp);
 
-        // Generate address based on type
         let addr: Address<NetworkChecked> = match address_type {
             AddressType::Bip44 => {
                 let child_pub = PublicKey::new(child_pub_key);
                 Address::p2pkh(&child_pub, Network::Bitcoin)
             }
             AddressType::Bip49 => {
-                // BIP49: P2WPKH-nested-in-P2SH
                 let compressed = bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize())
                     .context("Failed to create compressed public key")?;
                 Address::p2shwpkh(&compressed, Network::Bitcoin)
             }
             AddressType::Bip84 => {
-                // BIP84: Native SegWit (P2WPKH)
                 let compressed = bitcoin::CompressedPublicKey::from_slice(&child_pub_key.serialize())
                     .context("Failed to create compressed public key")?;
                 Address::p2wpkh(&compressed, Network::Bitcoin)
@@ -325,20 +390,23 @@ fn search_permutations(
         };
 
         if &addr == target {
-            println!("✓ FOUND MATCHING MNEMONIC!");
+            found.store(true, Ordering::Relaxed);
+            
+            println!("\n✓ FOUND MATCHING MNEMONIC!");
             println!();
             println!("Mnemonic phrase:");
             println!("  {}", phrase);
             println!();
             println!("Details:");
-            println!("  Permutation index: {}", i);
+            println!("  Permutation index: {}", current);
             println!("  Address type: {}", address_type.name());
             println!("  Derivation path: {}", derivation_path_str);
             println!("  Derived address: {}", addr);
             println!();
-            return Ok(true);
         }
-    }
 
-    Ok(false)
+        Ok(())
+    })?;
+
+    Ok(found.load(Ordering::Relaxed))
 }
