@@ -157,7 +157,7 @@ dependencies = [
 
 [[package]]
 name = "brute_force_mnemonics"
-version = "0.1.0"
+version = "1.1.0"
 dependencies = [
  "anyhow",
  "bip39",
