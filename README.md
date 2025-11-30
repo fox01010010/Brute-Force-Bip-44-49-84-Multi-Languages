@@ -41,7 +41,7 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/tar
 brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 ```
 
-### Address Types 1, 3, bc1q and Language are Detected Automatically.
+### 👉 Address Types 1, 3, bc1q and Language are Detected Automatically.
 
 ### 🧠 Arguments
 
@@ -154,13 +154,13 @@ Checked 6.0M permutations...
 ✓ FOUND MATCHING MNEMONIC!
 
 Mnemonic phrase:
-puzzle stove pepper laugh before mean toy poverty team deal shrimp dash
+✅puzzle stove pepper laugh before mean toy poverty team deal shrimp dash
 
 Details:
 Permutation index: 6463230
-Address type: BIP44 (Legacy P2PKH)
-Derivation path: m/44'/0'/0'/0/0
-Derived address: 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk
+✅Address type: BIP44 (Legacy P2PKH)
+✅Derivation path: m/44'/0'/0'/0/0
+✅Derived address: 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk
 ```
 
 ## How It Works
