@@ -21,7 +21,7 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages\tar
 ### 🐧 Linux / macOS
 **Clone the repository and enter the folder:**
 ```bash
-git clone https://github.com/fox01010010/fox_crypto.git && cd Brute-Force-Rust Bip-44-49-84-Multi-Languages
+git clone https://github.com/fox01010010/Brute-Force-Bip-44-49-84-Multi-Languages.git && cd Brute-Force-Rust Bip-44-49-84-Multi-Languages
 ``` 
 ```bash
 cargo build --release
