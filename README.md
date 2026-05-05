@@ -38,8 +38,12 @@ The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages\tar
 
 ### Linux / macOS
 
-```bash
+```
 cargo build --release
+```
+## Ganho de velocidade
+```
+RUSTFLAGS="-C target-cpu=native" cargo build --release
 ```
 
 The binary will be located at `Brute-Force-Rust Bip-44-49-84-Multi-Languages/target/release/brute_force_mnemonics`.
