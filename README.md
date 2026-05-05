@@ -15,7 +15,7 @@ Execute no terminal:
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 - source $HOME/.cargo/env
 
-  ## 🪟 Windows
+## 🪟 Windows
 
 - Baixe o instalador em:
 - 👉 https://rustup.rs
