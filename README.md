@@ -76,34 +76,27 @@ brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 📦**Windows:**
 ```
 .\target\release\brute_force_mnemonics.exe
-
 ```
 **12 words bip44:**
 ```
-brute_force_mnemonics.exe 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 500000000
-
+brute_force_mnemonics.exe 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 479000000
 ```
 **24 words bip44:**
 ```
-brute_force_mnemonics.exe 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 500000000
-
+brute_force_mnemonics.exe 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 479000000
 ```
 
 🐧**Linux / macOS:**
 ```
 ./target/release/brute_force_mnemonics
-
 ```
 **12 words bip44:**
 ```
-
-./brute_force_mnemonics 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 500000000
-
+./brute_force_mnemonics 19iRjyeGSW6hqMawQpELHCchwwM2EVoHYk puzzle stove pepper laugh before deal shrimp dash mean toy poverty team --derivation 0 --max-permutations 479000000
 ```
 **24 words bip44:**
 ```
-./brute_force_mnemonics 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 500000000
-
+./brute_force_mnemonics 185kMXVpPMCE4ozkzWosDohvgLcSf9hJ8n ozone fashion dinosaur safe key trash innocent accuse giraffe robot old leopard secret spot buddy animal husband stage unusual congress upper knock hero rotate --derivation 0 --max-permutations 479000000
 ```
 
 ## How It Works
