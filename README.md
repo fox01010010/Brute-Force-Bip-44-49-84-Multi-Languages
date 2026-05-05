@@ -7,7 +7,24 @@ If you have 12/24 BIP-39 mnemonic words but don't remember the correct order, th
 
 ## Prerequisites
 
-- [Rust](https://www.rust-lang.org/tools/install) (1.70 or later recommended)
+- [Rust](https://www.rust-lang.org/tools/install) (rustc 1.95.0 or later recommended)
+
+## 🐧 Linux / macOS (recomendado).
+
+Execute no terminal:
+- curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+- source $HOME/.cargo/env
+
+  ## 🪟 Windows
+
+- Baixe o instalador em:
+- 👉 https://rustup.rs
+- Execute o .exe e siga o padrão (Enter → Enter).
+
+## 📌 Verificar versões atuais
+- rustc --version
+- cargo --version
+- rustup --version
 
 ## Building
 
