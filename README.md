@@ -75,7 +75,7 @@ brute_force_mnemonics <TARGET_ADDRESS> <WORD1> <WORD2> ... <WORD12> [OPTIONS]
 
 📦**Windows:**
 ```
-.\target\release\brute_force_mnemonics.exe
+target\release\brute_force_mnemonics.exe
 ```
 **12 words bip44:**
 ```
